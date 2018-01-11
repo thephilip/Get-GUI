@@ -24,4 +24,7 @@ Render -gui @(
   $host_btn,
   $statusbar
 )
-`
+```
+
+## Produces 
+![demo_form](https://raw.githubusercontent.com/thephilpi/Get-GUI/master/demo_form.png)
