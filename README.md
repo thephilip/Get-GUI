@@ -27,4 +27,4 @@ Render -gui @(
 ```
 
 ## Produces 
-![demo_form](https://raw.githubusercontent.com/thephilpi/Get-GUI/master/demo_form.png)
+![demo_form](https://raw.githubusercontent.com/thephilip/Get-GUI/master/demo_form.PNG)
