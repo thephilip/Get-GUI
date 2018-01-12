@@ -1,4 +1,5 @@
 
+# load assemblies
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 
@@ -15,6 +16,9 @@ function New-Form {
   $form.Size = New-Object System.Drawing.Size($size.ForEach({Write-Output $_}) -join ",")
   $form.Text = $title
   $form.StartPosition = $position
+  $form.Font = "Segoe UI"
+  $form.MaximizeBox = $false
+  $form.TopMost = $true
 
   return $form
 }
@@ -54,18 +58,34 @@ function New-TextBox {
 }
 
 
+function New-ListView {
+  PARAM(
+    [Array]$size,
+    [Array]$location,
+    [String]$view = "Details"
+  )
+
+  $listview = New-Object System.Windows.Forms.ListView
+  $listview.Location = New-Object System.Drawing.Size($location)
+  $listview.Size = New-Object System.Drawing.Size($size)
+
+  return $listview
+}
+
+
 # New-Button :: [Array],[Array],[ScriptBlock] -> [Object]
 function New-Button {
   PARAM(
     [Array]$location,                   # position in px from left,top
+    [Array]$size,                       # width, height of button
     [String]$text = "Click Me",         # button text content
     $action                             # button click event action
   )
 
   $button = New-Object System.Windows.Forms.Button
   $button.Location = New-Object System.Drawing.Size($location.ForEach({Write-Output $_}) -join ",")
+  $button.Size = New-Object System.Drawing.Size($size.ForEach({Write-Output $_}) -join ",")
   $button.Text = $text
-  $action = $action
   $button.Add_Click($action)
 
   return $button
@@ -149,9 +169,7 @@ function Render {
       $form.Close()
     }
   })
-
-  # render the form
-  $form.Topmost = $true
   $form.Add_Shown({ $form.Activate() })
+  
   [Void] $form.ShowDialog()
 }
