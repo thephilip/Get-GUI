@@ -2,6 +2,7 @@
 # load assemblies
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
+[void] [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.VisualBasic")
 
 
 # New-Form :: [Array],[String],[String] -> [Object]
@@ -66,10 +67,22 @@ function New-ListView {
   )
 
   $listview = New-Object System.Windows.Forms.ListView
-  $listview.Location = New-Object System.Drawing.Size($location)
-  $listview.Size = New-Object System.Drawing.Size($size)
+  $listview.Location = New-Object System.Drawing.Size($location.ForEach({Write-Output $_}) -join ",")
+  $listview.Size = New-Object System.Drawing.Size($size.ForEach({Write-Output $_}) -join ",")
+  $listview.View = $view
 
   return $listview
+}
+
+
+function New-ListViewItem {
+  PARAM(
+    $item
+  )
+
+  $list_item = New-Object System.Windows.Forms.ListViewItem($item)
+
+  return $list_item
 }
 
 
@@ -113,6 +126,19 @@ function New-MessageBox {
   }
 
   return $messagebox
+}
+
+
+function New-InputBox {
+  PARAM(
+    [String]$prompt,
+    [String]$title,
+    [String]$default_text
+  )
+
+  $inputbox = [Microsoft.VisualBasic.Interaction]::InputBox($prompt, $title, $default_text)
+
+  return $inputbox
 }
 
 
